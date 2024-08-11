@@ -13,6 +13,9 @@ def get_operation(operator):
     display.insert(i,operator)
     i+=length
 
+def clear_all():
+    display.delete(0,END)
+
 root = Tk()
 custom_font = tkFont.Font(family="Helvetica",size=14)
 display = Entry(root,width=40,font=custom_font)
@@ -40,6 +43,7 @@ for x in range(4):
             count+=1
             button.grid(row=x + 2, column=y + 3)
 
-
+Button(root,text="AC",width=7,height=2,font=custom_font,command=clear_all).grid(row=5,column=0)
+Button(root,text="=",width=7,height=2,font=custom_font).grid(row=5,column=2)
 
 root.mainloop()
