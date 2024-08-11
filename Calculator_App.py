@@ -1,5 +1,6 @@
 from tkinter import *
 import tkinter.font as tkFont
+import ast
 
 i = 0
 def get_number(num):
@@ -15,6 +16,27 @@ def get_operation(operator):
 
 def clear_all():
     display.delete(0,END)
+
+def calculate():
+    entire_string = display.get()
+    try:
+        node = ast.parse(entire_string,mode="eval")
+        result = eval(compile(node,'<string>','eval'))
+        clear_all()
+        display.insert(0,result)
+    except Exception:
+        clear_all()
+        display.insert(0,"Error")
+
+def undo():
+    entire_string = display.get()
+    if len(entire_string):
+        new_string = entire_string[:-1]
+        clear_all()
+        display.insert(0,new_string)
+    else:
+        clear_all()
+        display.insert(0,"")
 
 root = Tk()
 custom_font = tkFont.Font(family="Helvetica",size=14)
@@ -44,6 +66,7 @@ for x in range(4):
             button.grid(row=x + 2, column=y + 3)
 
 Button(root,text="AC",width=7,height=2,font=custom_font,command=clear_all).grid(row=5,column=0)
-Button(root,text="=",width=7,height=2,font=custom_font).grid(row=5,column=2)
+Button(root,text="=",width=7,height=2,font=custom_font,command=calculate).grid(row=5,column=2)
+Button(root,text="<-",width=7,height=2,font=custom_font,command=lambda :undo()).grid(row=5,column=4)
 
 root.mainloop()
